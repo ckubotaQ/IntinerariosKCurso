@@ -17,7 +17,9 @@ const Stack = createStackNavigator();
 
 export default function route() {
     return(<NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator   screenOptions={{
+    headerShown: false
+  }}>
             <Stack.Screen name={LOADING_PAGE} component={LoadingPage}/>
             <Stack.Screen name={LOGIN} component={Login}/>
             <Stack.Screen name={HOME} component={Home}/>

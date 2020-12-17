@@ -1,12 +1,27 @@
 import React from 'react';
-import { View, Text, Button} from 'react-native';
+import {Image} from 'react-native';
+import  {Container, Content, Grid, Text, Button} from "native-base";
 import {LOADING_PAGE,
    HOME,
 } from '../../const'
-export default function Login({navigation}) {
-   return (<View>
-      <Text>Login</Text>
-      <Button title="Back a loading" onPress={()=> navigation.goBack()}/>
-      <Button title="Home" onPress={()=> navigation.navigate(HOME, {id:"1233123"})}/>
-   </View>);
+import styles from './styles';
+const GOOGLE_IMAGE = require('../../../assets/Icon_Google.png')
+export default function Login() {
+   return (
+      <Container>
+         <Content contentContainerStyle={styles.content}>
+           <Grid style={styles.Grid}>
+               <Text style={styles.titlelogin}>Bienvenido</Text>
+               <Text style={styles.subtitleslogin}>Click aqui para inicar sesión</Text>
+              <Button dark style={styles.googleBtn} >
+              <Image source={GOOGLE_IMAGE} style={styles.googleIcon}/>
+                  <Text>Google</Text>
+                  
+              </Button>
+               
+           </Grid>
+         </Content>
+      </Container>
+
+   )
 } 
