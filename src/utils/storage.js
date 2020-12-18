@@ -1,0 +1,23 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+export const saveItem = async (keyName, keyValue) =>{
+try {
+    await AsyncStorage.setItem(keyName, keyValue);
+    return true;
+} catch (e) {
+    return false;
+}
+}
+export const getItem = async (keyName) => {
+    try {
+        return await AsyncStorage.getItem(keyName);
+    } catch (e) {
+        return false;
+    }
+}
+export const clearALl = async () => {
+    try {
+        return await AsyncStorage.clear();
+    } catch (e) {
+        return false;
+    }
+}

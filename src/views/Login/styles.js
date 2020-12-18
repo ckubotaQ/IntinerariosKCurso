@@ -20,6 +20,7 @@ export default StyleSheet.create({
         fontSize: 16
     },
     googleBtn: {
+        marginTop: 30,
     marginLeft: 60,
     marginRight: 50,
       width: width/1.5,
