@@ -4,6 +4,7 @@ import MyHeader from "../../components/header";
 import { USER_INFO, USER_TOKEN } from "../../const";
  import { getItem } from "../../utils/storage";
 import { useState } from 'react/cjs/react.development';
+import  SearchComponent  from "../../components/searchcomponent";
 export default function Home() {
     const [userInfo, setUserInfo] = useState(null);
     useEffect(() => {
@@ -21,6 +22,10 @@ export default function Home() {
     return(
         <Container>
             <MyHeader ImageUri={userInfo && userInfo.photoUrl}/>
+            <Content>
+            <SearchComponent/>
+            </Content>
+          
         </Container>
     );
 } 
