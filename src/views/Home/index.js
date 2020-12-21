@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
-import { Container, Content} from 'native-base';
+import { Container, Content, Grid} from 'native-base';
 import MyHeader from "../../components/header";
 import { USER_INFO, USER_TOKEN } from "../../const";
  import { getItem } from "../../utils/storage";
 import { useState } from 'react/cjs/react.development';
 import  SearchComponent  from "../../components/searchcomponent";
+import GenericStyles from '../../styles';
 export default function Home() {
     const [userInfo, setUserInfo] = useState(null);
     useEffect(() => {
@@ -22,8 +23,10 @@ export default function Home() {
     return(
         <Container>
             <MyHeader ImageUri={userInfo && userInfo.photoUrl}/>
-            <Content>
+            <Content contentContainerStyle={GenericStyles.centeredContent}>
+                <Grid style={GenericStyles.centeredGrid}>
             <SearchComponent/>
+            </Grid>
             </Content>
           
         </Container>

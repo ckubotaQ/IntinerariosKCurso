@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { Form, Input, Item, Label, Icon, Picker} from "native-base";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { Form, Input, Item, Label, Icon, Picker, DatePicker, Button, Text} from "native-base";
+import { useDispatch } from "react-redux";
+import Styles from "./styles";
+import { getLocations } from "../../redux/actions/intinerarios";
 export default function SearchComponent(){
+    const dispatch = useDispatch();
     const [originPlace, setOriginPlace] = useState('');
     const [destinationPlace, setdestinationPlace] = useState('');
     const [outboundDate, setoutboundDate ]=useState('');
@@ -14,25 +17,58 @@ export default function SearchComponent(){
     const handleInboundDateChange = date => setinboundDate(date);
     const handleAdultsChange = adults => setAdults(adults);
     const handleChildsChange= childs => setChilds(childs);
+    const searchButonDisable = () => {
+        if (!originPlace || !destinationPlace || !outboundDate
+            ||!inboundDate ||
+            !adults){
+                return true;
+        } 
+        return false;
+    }
+    const handleSearchButtonClick = () => {
+        //dispatch(getLocations());
+    }
+    const handleOriginKeyPress = ({nativeEvent}) => {
+        if(originPlace.length>4){
+            //TODO dispara la accion
+            dispatch(getLocations({query: originPlace}));
+            console.log(originPlace);
+        }
+    };
+    const handleDestinationKeyPress = ({nativeEvent}) => {
+        if(destinationPlace.length>4){
+            //TODO dispara la accion
+            dispatch(getLocations({query: destinationPlace}));
+           // console.log(destinationPlace);
+        }
+    };
+    
+
     return(
-        <Form>
+        <Form style={Styles.Form}>
             <Item>
                 <Icon type="FontAwesome5" name="home" />
-                <Input placeholder="Origen" value={originPlace} onChangeText={handleOriginChange}/>
+                <Input placeholder="Origen"
+                  style={Styles.input}
+                  onKeyPress={handleOriginKeyPress}
+                value={originPlace} onChangeText={handleOriginChange}/>
             </Item>
             <Item>
                 <Icon name="ios-airplane"/>
-                <Input placeholder="Destino" value={destinationPlace} onChangeText={handleDestinationChange}/>
+                <Input placeholder="Destino" 
+                style={Styles.input}
+                value={destinationPlace} 
+                onKeyPress={handleDestinationKeyPress}
+                onChangeText={handleDestinationChange}/>
             </Item>
-            <Item>
+            <Item style={Styles.datesConteiner}>
                 <Icon type="FontAwesome" name="calendar-plus-o"/>
-                <DateTimePicker placeHolderText="Fecha de Salida" value={new Date()} onChange={handleOutboundDateChange}/>
-            </Item>
-            <Item>
+                <DatePicker placeHolderText="ida" onDateChange={handleOutboundDateChange}/>
+          
                 <Icon type="FontAwesome" name="calendar-minus-o"/>
-                <DateTimePicker placeHolderText="Fecha de Regreso" value={new Date()} onChange={handleInboundDateChange}/>
+                <DatePicker placeHolderText="Fecha de Regreso"  onDateChange={handleInboundDateChange}/>
             </Item>
-            <Item>
+            <Item style={Styles.pickerConteiner}>
             <Icon type="MaterialIcons" name="person-add"/>
                 <Picker selectedValue={adults} onValueChange={handleAdultsChange}>
                 <Picker.Item selected label= "1" value="1"/>
@@ -45,8 +81,7 @@ export default function SearchComponent(){
                     
                 </Picker>
                
-            </Item>
-            <Item>
+           
             <Icon type="FontAwesome5" name="child"/>
                 <Picker selectedValue={childs} onValueChange={handleChildsChange}>
                 <Picker.Item selected label= "1" value="1"/>
@@ -60,7 +95,10 @@ export default function SearchComponent(){
                 </Picker>
                
             </Item>
-            
+            <Button style={Styles.searchButton} disabled={searchButonDisable()} onPress={handleSearchButtonClick}>
+                <Icon type="FontAwesome" name="search" style={Styles.searchIcon} />
+                <Text style={Styles.searchButtontext}>Buscar</Text>
+            </Button>
         </Form>
     );
 };

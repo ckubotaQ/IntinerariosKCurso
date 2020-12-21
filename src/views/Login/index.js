@@ -7,6 +7,7 @@ import {LOGIN_GOOGLE_SUCCES,
    USER_TOKEN, HOME
 } from '../../const'
 import styles from './styles';
+import GenericStyles from "../../styles";
 import { saveItem } from '../../utils/storage';
 import  env  from "../../../env";
 const GOOGLE_IMAGE = require('../../../assets/Icon_Google.png');
@@ -46,8 +47,8 @@ export default function Login({navigation}) {
    
    return (
       <Container>
-         <Content contentContainerStyle={styles.content}>
-           <Grid style={styles.Grid}>
+         <Content contentContainerStyle={[GenericStyles.centeredContent, styles.content]}>
+           <Grid style={[GenericStyles.centeredGrid ,styles.Grid]}>
                <Text style={styles.titlelogin}>Bienvenido</Text>
                <Text style={styles.subtitleslogin}>Click aqui para inicar sesión</Text>
               <Button dark style={styles.googleBtn} onPress={handleLoginPress}>

@@ -3,13 +3,10 @@ import Constants from "expo-constants";
 const {width}= Dimensions.get("window");
 export default StyleSheet.create({
     content: {
-        flex: 1,
        //backgroundColor: "#13DA6B",
        marginTop: Constants.statusBarHeight
     },
     Grid: {
-        alignItems : "center",
-        justifyContent: "center",
         flexDirection: "column"
     },
     titlelogin: {
