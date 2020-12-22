@@ -7,16 +7,29 @@ import  FixedList  from "../fixedList";
 export default function SearchComponent(){
     const dispatch = useDispatch();
     const places = useSelector((state)=>state.intinerarios.places);
-    const [originPlace, setOriginPlace] = useState('');
-    const [destinationPlace, setdestinationPlace] = useState('');
+    const [originPlace, setOriginPlace] = useState({PlaceName: ""});
+    const [destinationPlace, setdestinationPlace] = useState({PlaceName: ""});
     const [outboundDate, setoutboundDate ]=useState('');
     const [inboundDate, setinboundDate]=useState('');
     const [adults, setAdults] = useState("0");
     const [childs, setChilds] = useState("0");
     const [showOriginPlacesList,setshowOriginPlacesList] = useState(false);   
     const [showDestinationPlacesList,setshowDestinationPlacesList] = useState(false);  
-    const handleOriginChange = text => setOriginPlace(text);
-    const handleDestinationChange = text => setdestinationPlace(text);
+    const handleOriginPlaceItemPress = (placeSelected) => {
+        //to do actualiza el valor del input
+        setOriginPlace(placeSelected);
+
+        setshowOriginPlacesList(false);
+
+    };
+    const handleDestinationPlaceItemPress = (placeSelected) => {
+        //to do actualiza el valor del input
+        setdestinationPlace(placeSelected);
+        setshowDestinationPlacesList(false);
+
+    };
+    const handleOriginChange = text => setOriginPlace({PlaceName: text});
+    const handleDestinationChange = text => setdestinationPlace({PlaceName: text});
     const handleOutboundDateChange = date => setoutboundDate(date);
     const handleInboundDateChange = date => setinboundDate(date);
     const handleAdultsChange = adults => setAdults(adults);
@@ -33,20 +46,18 @@ export default function SearchComponent(){
         dispatch(getLocations());
     }
     const handleOriginKeyPress = ({nativeEvent}) => {
-        if(originPlace.length>3){
-         //TODO dispara la accion
-           dispatch(getLocations({query: originPlace}));
+        if(originPlace.PlaceName.length>2){
+           dispatch(getLocations({query: originPlace.PlaceName}));
            setshowOriginPlacesList(true);
-            console.log(originPlace);
         }else{
             setshowOriginPlacesList(false);
         }
        
     };
     const handleDestinationKeyPress = ({nativeEvent}) => {
-        if(destinationPlace.length>3){
+        if(destinationPlace.PlaceName.length>2){
            
-           dispatch(getLocations({query: destinationPlace}));
+           dispatch(getLocations({query: destinationPlace.PlaceName}));
            setshowDestinationPlacesList(true);
            
         }else{
@@ -62,25 +73,29 @@ export default function SearchComponent(){
                 <Input placeholder="Origen"
                   style={Styles.input}
                   onKeyPress={handleOriginKeyPress}
-                value={originPlace} onChangeText={handleOriginChange}/>
-                {showOriginPlacesList &&  <FixedList places={places} conteinerStyle={{top: 50}}/>}
+                value={originPlace.PlaceName} onChangeText={handleOriginChange}/>
+              
                
             </Item>
+            {showOriginPlacesList &&  <FixedList places={places} conteinerStyle={{top: 50}}
+                onItemPress={handleOriginPlaceItemPress}/>}
             <Item>
                 <Icon name="ios-airplane"/>
                 <Input placeholder="Destino" 
                 style={Styles.input}
-                value={destinationPlace} 
+                value={destinationPlace.PlaceName} 
                 onKeyPress={handleDestinationKeyPress}
                 onChangeText={handleDestinationChange}/>
-                {showDestinationPlacesList &&  <FixedList places={places}/>}
+              
             </Item>
+            {showDestinationPlacesList &&  <FixedList places={places} conteinerStyle={{top: 140}} 
+                onItemPress={handleDestinationPlaceItemPress}/>}
             <Item style={Styles.datesConteiner}>
                 <Icon type="FontAwesome" name="calendar-plus-o"/>
-                <DatePicker placeHolderText="ida" onDateChange={handleOutboundDateChange}/>
+                <DatePicker placeHolderText="ida" onDateChange={handleOutboundDateChange} minimumDate={new Date()}/>
           
                 <Icon type="FontAwesome" name="calendar-minus-o"/>
-                <DatePicker placeHolderText="Fecha de Regreso"  onDateChange={handleInboundDateChange}/>
+                <DatePicker placeHolderText="Fecha de Regreso"  onDateChange={handleInboundDateChange} minimumDate={outboundDate}/>
             </Item>
             <Item style={Styles.pickerConteiner}>
             <Icon type="MaterialIcons" name="person-add"/>
