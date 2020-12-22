@@ -1,16 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { Form, Input, Item, Label, Icon, Picker, DatePicker, Button, Text} from "native-base";
-import { useDispatch } from "react-redux";
+import  {useDispatch, useSelector}  from "react-redux";
 import Styles from "./styles";
 import { getLocations } from "../../redux/actions/intinerarios";
+import  FixedList  from "../fixedList";
 export default function SearchComponent(){
     const dispatch = useDispatch();
+    const places = useSelector((state)=>state.intinerarios.places);
     const [originPlace, setOriginPlace] = useState('');
     const [destinationPlace, setdestinationPlace] = useState('');
     const [outboundDate, setoutboundDate ]=useState('');
     const [inboundDate, setinboundDate]=useState('');
     const [adults, setAdults] = useState("0");
     const [childs, setChilds] = useState("0");
+    const [showOriginPlacesList,setshowOriginPlacesList] = useState(false);   
+    const [showDestinationPlacesList,setshowDestinationPlacesList] = useState(false);  
     const handleOriginChange = text => setOriginPlace(text);
     const handleDestinationChange = text => setdestinationPlace(text);
     const handleOutboundDateChange = date => setoutboundDate(date);
@@ -26,20 +30,27 @@ export default function SearchComponent(){
         return false;
     }
     const handleSearchButtonClick = () => {
-        //dispatch(getLocations());
+        dispatch(getLocations());
     }
     const handleOriginKeyPress = ({nativeEvent}) => {
-        if(originPlace.length>4){
-            //TODO dispara la accion
-            dispatch(getLocations({query: originPlace}));
+        if(originPlace.length>3){
+         //TODO dispara la accion
+           dispatch(getLocations({query: originPlace}));
+           setshowOriginPlacesList(true);
             console.log(originPlace);
+        }else{
+            setshowOriginPlacesList(false);
         }
+       
     };
     const handleDestinationKeyPress = ({nativeEvent}) => {
-        if(destinationPlace.length>4){
-            //TODO dispara la accion
-            dispatch(getLocations({query: destinationPlace}));
-           // console.log(destinationPlace);
+        if(destinationPlace.length>3){
+           
+           dispatch(getLocations({query: destinationPlace}));
+           setshowDestinationPlacesList(true);
+           
+        }else{
+            setshowDestinationPlacesList(false);
         }
     };
     
@@ -52,6 +63,8 @@ export default function SearchComponent(){
                   style={Styles.input}
                   onKeyPress={handleOriginKeyPress}
                 value={originPlace} onChangeText={handleOriginChange}/>
+                {showOriginPlacesList &&  <FixedList places={places} conteinerStyle={{top: 50}}/>}
+               
             </Item>
             <Item>
                 <Icon name="ios-airplane"/>
@@ -60,6 +73,7 @@ export default function SearchComponent(){
                 value={destinationPlace} 
                 onKeyPress={handleDestinationKeyPress}
                 onChangeText={handleDestinationChange}/>
+                {showDestinationPlacesList &&  <FixedList places={places}/>}
             </Item>
             <Item style={Styles.datesConteiner}>
                 <Icon type="FontAwesome" name="calendar-plus-o"/>
