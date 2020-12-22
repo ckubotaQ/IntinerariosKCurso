@@ -4,7 +4,8 @@ import  {useDispatch, useSelector}  from "react-redux";
 import Styles from "./styles";
 import { getLocations } from "../../redux/actions/intinerarios";
 import  FixedList  from "../fixedList";
-export default function SearchComponent(){
+import { RESULTS } from "../../const";
+export default function SearchComponent({navigation}){
     const dispatch = useDispatch();
     const places = useSelector((state)=>state.intinerarios.places);
     const [originPlace, setOriginPlace] = useState({PlaceName: ""});
@@ -43,8 +44,16 @@ export default function SearchComponent(){
         return false;
     }
     const handleSearchButtonClick = () => {
-        dispatch(getLocations());
-    }
+        navigation.navigate(RESULTS,{
+                originPlace,
+                destinationPlace,
+                outboundDate,
+                inboundDate,
+                adults,
+                childs  
+
+        });
+    };
     const handleOriginKeyPress = ({nativeEvent}) => {
         if(originPlace.PlaceName.length>2){
            dispatch(getLocations({query: originPlace.PlaceName}));

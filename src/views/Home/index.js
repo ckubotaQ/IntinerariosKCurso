@@ -6,7 +6,7 @@ import { USER_INFO, USER_TOKEN } from "../../const";
 import { useState } from 'react/cjs/react.development';
 import  SearchComponent  from "../../components/searchcomponent";
 import GenericStyles from '../../styles';
-export default function Home() {
+export default function Home({navigation}) {
     const [userInfo, setUserInfo] = useState(null);
     useEffect(() => {
         if (!userInfo) {
@@ -25,7 +25,7 @@ export default function Home() {
             <MyHeader ImageUri={userInfo && userInfo.photoUrl}/>
             <Content contentContainerStyle={GenericStyles.centeredContent}>
                 <Grid style={GenericStyles.centeredGrid}>
-            <SearchComponent/>
+            <SearchComponent navigation={navigation}/>
             </Grid>
             </Content>
           
