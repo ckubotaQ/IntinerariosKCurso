@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Form, Input, Item, Label, Icon, Picker, DatePicker, Button, Text} from "native-base";
 import  {useDispatch, useSelector}  from "react-redux";
+import  moment  from "moment";
 import Styles from "./styles";
 import { getLocations } from "../../redux/actions/intinerarios";
 import  FixedList  from "../fixedList";
@@ -45,10 +46,10 @@ export default function SearchComponent({navigation}){
     }
     const handleSearchButtonClick = () => {
         navigation.navigate(RESULTS,{
-                originPlace,
-                destinationPlace,
-                outboundDate,
-                inboundDate,
+                originPlace: originPlace.PlaceId,
+                destinationPlace: destinationPlace.PlaceId,
+                outboundDate: moment(outboundDate).format('YYYY-MM-DD'),
+                inboundDate: moment(inboundDate).format('YYYY-MM-DD'),
                 adults,
                 childs  
 
